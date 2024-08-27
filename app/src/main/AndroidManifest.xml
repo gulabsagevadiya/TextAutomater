@@ -33,9 +33,13 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="custom.automater.textautomater.SEND_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
             <intent-filter>
                 <action android:name="custom.automater.textautomater.SET_WHATSAPP_AUTOMATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
         <service

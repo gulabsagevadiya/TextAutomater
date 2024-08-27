@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.telephony.SmsManager
-import android.util.Log
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 
@@ -56,9 +55,6 @@ class MainActivity : AppCompatActivity() {
 
   private fun handleIntent(intent: Intent?) {
     when (intent?.action) {
-      "android.intent.action.MAIN" -> {
-        Log.d("MainActivity", "App opened by user")
-      }
       "custom.automater.textautomater.SEND_TEXT" -> {
         val phoneNumber = intent.getStringExtra("phoneNumber")
         val message = intent.getStringExtra("message")
@@ -67,7 +63,7 @@ class MainActivity : AppCompatActivity() {
       "custom.automater.textautomater.SET_WHATSAPP_AUTOMATION" -> {
         val automation = intent.getBooleanExtra("setAutomation", false)
         sharePrefHelper.whatsAppAutomation = automation
-        finish()
+        onBackPressedDispatcher.onBackPressed()
       }
     }
   }
@@ -85,7 +81,7 @@ class MainActivity : AppCompatActivity() {
       } else {
         smsManager.sendTextMessage(phoneNumber, null, message, null, null)
       }
-      finish()
+      onBackPressedDispatcher.onBackPressed()
     } else {
       startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
         data = Uri.fromParts("package", packageName, null)

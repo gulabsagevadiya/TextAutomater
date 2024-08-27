@@ -88,7 +88,6 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                 sendMessageButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                 Thread.sleep(500)
                 performGlobalAction(GLOBAL_ACTION_BACK)
-                Thread.sleep(500)
                 performGlobalAction(GLOBAL_ACTION_BACK)
             } catch (e: Exception) {
                 e.printStackTrace()
