@@ -1,0 +1,3 @@
+<resources>
+    <style name="Base.Theme.TextAutomater" parent="Theme.AppCompat.Light.NoActionBar" />
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TextAutomater</string>
+    <string name="whats_app_permission">WhatsApp Automation Permission</string>
+</resources>
