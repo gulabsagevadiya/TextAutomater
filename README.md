@@ -1,7 +1,10 @@
 **Welcome to the Text Automater App Project!**
 
-- [English](README_en.md)
-- [हिन्दी](README_hi.md)
+<p align="center">
+  <a href="README_en.md">English</a> • 
+  <a href="README_hi.md">हिन्दी</a> • 
+  <a href="README_gu.md">ગુજરાતી</a>
+</p>
 
 You might be wondering why you need to download this app from outside the Play Store. Let me explain why:
 
