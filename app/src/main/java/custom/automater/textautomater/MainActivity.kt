@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
       "custom.automater.textautomater.SET_WHATSAPP_AUTOMATION" -> {
         val automation = intent.getBooleanExtra("setAutomation", false)
         sharePrefHelper.whatsAppAutomation = automation
-        onBackPressedDispatcher.onBackPressed()
+        finishAffinity()
       }
     }
   }
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
       } else {
         smsManager.sendTextMessage(phoneNumber, null, message, null, null)
       }
-      onBackPressedDispatcher.onBackPressed()
+      finishAffinity()
     } else {
       startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
         data = Uri.fromParts("package", packageName, null)
