@@ -1,8 +1,5 @@
 **Welcome to the Text Automater App Project!**
 
-- [English](README_en.md)
-- [हिन्दी](README_hi.md)
-
 You might be wondering why you need to download this app from outside the Play Store. Let me explain why:
 
 ## Why Not the Play Store?
