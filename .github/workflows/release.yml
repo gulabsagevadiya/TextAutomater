@@ -59,7 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.version_name }}
+          tag_name: '${{ env.version_name }}'
           release_name: 'TextAutomater ${{ env.version_name }}'
           draft: false
           prerelease: false
