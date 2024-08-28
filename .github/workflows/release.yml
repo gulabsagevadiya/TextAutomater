@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-release:
     name: Build APK
     runs-on: ubuntu-latest
 
@@ -38,12 +38,6 @@ jobs:
           name: app-release
           path: app/build/outputs/apk/release/app-release-unsigned.apk
 
-  release:
-    name: Release APK
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Download APK artifact
         uses: actions/download-artifact@v3
         with:
@@ -51,7 +45,7 @@ jobs:
 
       - name: Get version
         run: |
-          echo "version_name=${{needs.build.outputs.VERSION_NAME}}" >> $GITHUB_ENV
+          echo "version_name=${{steps.android_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create_release
