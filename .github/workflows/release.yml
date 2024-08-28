@@ -29,7 +29,9 @@ jobs:
 
       - name: Extract versionName from build.gradle
         id: extract_version
-        run: echo "VERSION_NAME=$(${{github.workspace}}/gradlew -q printVersionName)" >> $GITHUB_ENV
+        run: |
+          VERSION_NAME=$(./gradlew printVersionName -q)
+          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v3
