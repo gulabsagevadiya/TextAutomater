@@ -1,0 +1,26 @@
+name: Get Latest Release Tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  fetch-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh
+
+      - name: Fetch latest release tag
+        id: fetch_latest_tag
+        run: |
+          latest_tag=$(gh release view --json tagName --jq .tagName)
+          echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
+
+      - name: Display latest release tag
+        run: echo "The latest release tag is ${{ env.LATEST_TAG }}"
