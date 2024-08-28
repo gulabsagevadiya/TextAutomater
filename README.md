@@ -1,7 +1,7 @@
 **Welcome to the Text Automater App Project!**
 
 <p align="center">
-  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/textAutomater.apk">Download App Now</a>
+  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/download/textAutomater.apk">Download App Now</a>
 </p>
 
 <p align="center">
