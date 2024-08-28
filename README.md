@@ -1,6 +1,10 @@
 **Welcome to the Text Automater App Project!**
 
 <p align="center">
+  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/textAutomater.apk">Download App Now</a>
+</p>
+
+<p align="center">
   <a href="README_en.md">English</a> • 
   <a href="README_hi.md">हिन्दी</a> • 
   <a href="README_gu.md">ગુજરાતી</a>
