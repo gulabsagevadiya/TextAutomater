@@ -27,7 +27,7 @@ jobs:
       - name: Extract versionName from build.gradle
         id: extract_version
         run: |
-          VERSION_NAME=$(./gradlew printVersionName -q | tr -d '\r')
+          VERSION_NAME=$(./gradlew printVersionName -q)
           echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
 
       - name: Print extracted versionName
