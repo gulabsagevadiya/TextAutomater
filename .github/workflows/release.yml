@@ -47,31 +47,31 @@ jobs:
         run: |
           if [ "${{ env.version_name }}" == "${{ env.latest_tag }}" ]; then
             echo "Version ${VERSION_NAME} is the same as the latest release. Skipping build and release."
-            exit 0
+            echo "skip_build=true" >> $GITHUB_ENV
           else
             echo "Version ${VERSION_NAME} is different from the latest release. Proceeding with build and release."
+            echo "skip_build=false" >> $GITHUB_ENV
           fi
 
       - name: Build APK
-        if: success()
+        if: ${{ env.skip_build == 'false' }}
         run: ./gradlew assembleRelease
 
       - name: Upload APK as artifact
-        if: success()
+        if: ${{ env.skip_build == 'false' }}
         uses: actions/upload-artifact@v3
         with:
           name: app-release
           path: app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Download APK artifact
-        if: success()
+        if: ${{ env.skip_build == 'false' }}
         uses: actions/download-artifact@v3
         with:
           name: app-release
 
-
       - name: Create GitHub Release
-        if: success()
+        if: ${{ env.skip_build == 'false' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -84,7 +84,7 @@ jobs:
           body: "Automated release for build #${{ env.version_name }}"
 
       - name: Upload APK to Release
-        if: success()
+        if: ${{ env.skip_build == 'false' }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
