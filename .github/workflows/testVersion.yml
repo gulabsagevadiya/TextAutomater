@@ -1,0 +1,35 @@
+name: Test Extract versionName
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  extract_version:
+    name: Extract and Print versionName
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 18
+        uses: actions/setup-java@v1
+        with:
+          java-version: 18
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Extract versionName from build.gradle
+        id: extract_version
+        run: |
+          VERSION_NAME=$(./gradlew printVersionName -q | tr -d '\r')
+          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
+
+      - name: Print extracted versionName
+        run: |
+          echo "Extracted VERSION_NAME: $VERSION_NAME"
