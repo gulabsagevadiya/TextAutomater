@@ -43,7 +43,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: app-release.apk
-          path: .
+          path: app/build/outputs/apk/release/app-release.apk
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
