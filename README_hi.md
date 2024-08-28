@@ -1,6 +1,10 @@
 # Text Automater ऐप
 
-**Text Automater ऐप में आपका स्वागत है!**
+<p align="center">
+  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/download/textAutomater.apk">
+    <img src="https://img.shields.io/badge/Download-App%20Now-brightgreen" alt="Download App">
+  </a>
+</p>
 
 आप शायद सोच रहे होंगे कि आपको यह ऐप Play Store के बाहर क्यों डाउनलोड करना पड़ रहा है। आइए हम आपको बताते हैं क्यों:
 

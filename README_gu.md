@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/download/textAutomater.apk">
+    <img src="https://img.shields.io/badge/Download-App%20Now-brightgreen" alt="Download App">
+  </a>
+</p>
+
 તમને સમજાય છે કે આ એપ્લિકેશનને પ્લે સ્ટોરની બહારથી ડાઉનલોડ કરવાની જરૂર શા માટે છે. આ અંગે અમે તમને સમજાવીએ છીએ:
 
 ## પ્લે સ્ટોર પર શા માટે નહીં?

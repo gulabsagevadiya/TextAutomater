@@ -1,7 +1,9 @@
 **Welcome to the Text Automater App Project!**
 
 <p align="center">
-  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/download/textAutomater.apk">Download App Now</a>
+  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/download/textAutomater.apk">
+    <img src="https://img.shields.io/badge/Download-App%20Now-brightgreen" alt="Download App">
+  </a>
 </p>
 
 <p align="center">

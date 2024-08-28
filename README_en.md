@@ -1,4 +1,8 @@
-**Welcome to the Text Automater App Project!**
+<p align="center">
+  <a href="https://github.com/gulabsagevadiya/TextAutomater/releases/latest/download/textAutomater.apk">
+    <img src="https://img.shields.io/badge/Download-App%20Now-brightgreen" alt="Download App">
+  </a>
+</p>
 
 You might be wondering why you need to download this app from outside the Play Store. Let me explain why:
 
