@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.telephony.SmsManager
+import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 
@@ -74,12 +75,25 @@ class MainActivity : AppCompatActivity() {
         android.Manifest.permission.SEND_SMS
       ) == PackageManager.PERMISSION_GRANTED
     ) {
-      val smsManager: SmsManager = applicationContext.getSystemService(SmsManager::class.java)
-      if (message.length > 160) {
-        val parts = smsManager.divideMessage(message)
-        smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null)
-      } else {
-        smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+      try {
+        val smsManager: SmsManager? = applicationContext.getSystemService(SmsManager::class.java)
+        if (smsManager != null) {
+          if (message.length > 160) {
+            val parts = smsManager.divideMessage(message)
+            smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null)
+          } else {
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+          }
+        } else {
+          Toast.makeText(this, "SMS Manager not available on this device", Toast.LENGTH_SHORT).show()
+          val smsIntent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("smsto:$phoneNumber")
+            putExtra("sms_body", message)
+          }
+          startActivity(smsIntent)
+        }
+      } catch (e: Exception) {
+        Toast.makeText(this, "Failed to send message\n Error: $e", Toast.LENGTH_LONG).show()
       }
       finishAffinity()
     } else {
