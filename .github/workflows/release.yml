@@ -1,10 +1,9 @@
 name: Build and Release APK
 
 on:
-  workflow_dispatch:
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 
 
 jobs:
@@ -16,9 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install GitHub CLI
-        run: sudo apt-get install gh
-
       - name: Set up JDK 18
         uses: actions/setup-java@v1
         with:
@@ -29,30 +25,53 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Build APK
-        run: ./gradlew assembleRelease
+      - name: Fetch latest release tag
+        id: fetch_latest_tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+          echo "latest_tag=${LATEST_TAG}" >> $GITHUB_ENV
 
       - name : Retrieve Version
         id: android_version
         run: |
           echo "::set-output name=VERSION_NAME::$(${{github.workspace}}/gradlew -q printVersionName)"
 
+      - name: Get version
+        run: |
+          echo "version_name=${{steps.android_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
+
+      - name: Compare version names
+        id: compare_versions
+        run: |
+          if [ "${{ env.version_name }}" == "${{ env.latest_tag }}" ]; then
+            echo "Version ${VERSION_NAME} is the same as the latest release. Skipping build and release."
+            exit 0
+          else
+            echo "Version ${VERSION_NAME} is different from the latest release. Proceeding with build and release."
+          fi
+
+      - name: Build APK
+        if: success()
+        run: ./gradlew assembleRelease
+
       - name: Upload APK as artifact
+        if: success()
         uses: actions/upload-artifact@v3
         with:
           name: app-release
           path: app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Download APK artifact
+        if: success()
         uses: actions/download-artifact@v3
         with:
           name: app-release
 
-      - name: Get version
-        run: |
-          echo "version_name=${{steps.android_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
 
       - name: Create GitHub Release
+        if: success()
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -65,6 +84,7 @@ jobs:
           body: "Automated release for build #${{ env.version_name }}"
 
       - name: Upload APK to Release
+        if: success()
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
