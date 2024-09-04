@@ -23,3 +23,5 @@ local.properties
 /.idea/misc.xml
 /.idea/other.xml
 /.idea/vcs.xml
+/app/release/output-metadata.json
+/app/release/app-release.apk
