@@ -18,6 +18,7 @@ import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 
 class SMSHelper(private val app: MyApp) {
 
@@ -26,7 +27,6 @@ class SMSHelper(private val app: MyApp) {
     private const val SMS_SENT_ACTION = "SMS_SENT"
     private const val SMS_DELIVERED_ACTION = "SMS_DELIVERED"
     private const val MAX_SMS_LENGTH = 160
-    private const val MAX_MULTIPART_SMS_LENGTH = 153
   }
 
   // Static receivers that can work with application context
@@ -98,7 +98,7 @@ class SMSHelper(private val app: MyApp) {
   fun sendTextMessage(
     phoneNumber: String,
     message: String,
-    callback: ((Boolean, String) -> Unit)? = null
+    callback: ((Boolean, String) -> Unit)? = null,
   ) {
     // Store callback for receivers
     currentCallback = callback
@@ -245,13 +245,7 @@ class SMSHelper(private val app: MyApp) {
   private fun isSMSCapable(): Boolean {
     return try {
       val telephonyManager = app.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
-      telephonyManager?.let { tm ->
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-          tm.isSmsCapable
-        } else {
-          app.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
-        }
-      } ?: false
+      telephonyManager?.isSmsCapable ?: false
     } catch (e: Exception) {
       Log.e(TAG, "Failed to check SMS capability", e)
       false
@@ -283,7 +277,7 @@ class SMSHelper(private val app: MyApp) {
   private fun fallbackToSMSApp(phoneNumber: String, message: String) {
     try {
       val smsIntent = Intent(Intent.ACTION_VIEW).apply {
-        data = Uri.parse("smsto:$phoneNumber")
+        data = "smsto:$phoneNumber".toUri()
         putExtra("sms_body", message)
         flags = Intent.FLAG_ACTIVITY_NEW_TASK
       }
@@ -308,8 +302,8 @@ class SMSHelper(private val app: MyApp) {
         app.registerReceiver(sentReceiver, IntentFilter(SMS_SENT_ACTION), Context.RECEIVER_NOT_EXPORTED)
         app.registerReceiver(deliveredReceiver, IntentFilter(SMS_DELIVERED_ACTION), Context.RECEIVER_NOT_EXPORTED)
       } else {
-        app.registerReceiver(sentReceiver, IntentFilter(SMS_SENT_ACTION))
-        app.registerReceiver(deliveredReceiver, IntentFilter(SMS_DELIVERED_ACTION))
+        ContextCompat.registerReceiver(app, sentReceiver, IntentFilter(SMS_SENT_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED)
+        ContextCompat.registerReceiver(app, deliveredReceiver, IntentFilter(SMS_DELIVERED_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED)
       }
       receiversRegistered = true
     } catch (e: Exception) {
