@@ -10,6 +10,7 @@ import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     whatsAppAutomationSwitch = findViewById(R.id.whats_app_automation_switch)
 
     smsSwitch.setOnCheckedChangeListener { _, isChecked ->
-      if (isChecked && (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)){
+      if (isChecked && (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)) {
         startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
           data = Uri.fromParts("package", packageName, null)
           flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     whatsAppSwitch.setOnCheckedChangeListener { _, isChecked ->
-      if(isChecked && !WhatsAppAccessibilityService.checkAccessibilityService){
+      if (isChecked && !WhatsAppAccessibilityService.checkAccessibilityService) {
         val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     whatsAppAutomationSwitch.setOnCheckedChangeListener { _, isChecked ->
-      if(!isChecked){
+      if (!isChecked) {
         sharePrefHelper.whatsAppAutomation = false
       }
     }
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         val message = intent.getStringExtra("message")
         sendTextMessage(phoneNumber!!, message!!)
       }
+
       "custom.automater.textautomater.SET_WHATSAPP_AUTOMATION" -> {
         val automation = intent.getBooleanExtra("setAutomation", false)
         sharePrefHelper.whatsAppAutomation = automation
@@ -70,38 +72,46 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun sendTextMessage(phoneNumber: String, message: String) {
-    if (ActivityCompat.checkSelfPermission(
-        this,
-        android.Manifest.permission.SEND_SMS
-      ) == PackageManager.PERMISSION_GRANTED
-    ) {
-      try {
-        val smsManager: SmsManager? = applicationContext.getSystemService(SmsManager::class.java)
-        if (smsManager != null) {
-          if (message.length > 160) {
-            val parts = smsManager.divideMessage(message)
-            smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null)
-          } else {
-            smsManager.sendTextMessage(phoneNumber, null, message, null, null)
-          }
-        } else {
-          Toast.makeText(this, "SMS Manager not available on this device", Toast.LENGTH_SHORT).show()
-          val smsIntent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse("smsto:$phoneNumber")
-            putExtra("sms_body", message)
-          }
-          startActivity(smsIntent)
-        }
-      } catch (e: Exception) {
-        Toast.makeText(this, "Failed to send message\n Error: $e", Toast.LENGTH_LONG).show()
-      }
-      finishAffinity()
-    } else {
-      startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", packageName, null)
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-      })
+    if (!smsHelper.hasPermission()) {
+      ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.SEND_SMS), 1001)
+      return
     }
+
+    smsHelper.sendTextMessage(phoneNumber, message) { success, message ->
+      Toast.makeText(this, "Result : $success \nMessage: $message", Toast.LENGTH_LONG).show()
+    }
+//    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+//      try {
+//        val smsManager: SmsManager? = applicationContext.getSystemService(SmsManager::class.java)
+//        if (smsManager != null) {
+//          try {
+//            if (message.length > 160) {
+//              val parts = smsManager.divideMessage(message)
+//              smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null)
+//            } else {
+//              smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+//            }
+//            finishAffinity()
+//          } catch (e: Exception) {
+//            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+//          }
+//        } else {
+//          Toast.makeText(this, "SMS Manager not available on this device", Toast.LENGTH_LONG).show()
+//          val smsIntent = Intent(Intent.ACTION_VIEW).apply {
+//            data = "smsto:$phoneNumber".toUri()
+//            putExtra("sms_body", message)
+//          }
+//          startActivity(smsIntent)
+//        }
+//      } catch (e: Exception) {
+//        Toast.makeText(this, "Failed to send message\n Error: $e", Toast.LENGTH_LONG).show()
+//      }
+//    } else {
+//      startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+//        data = Uri.fromParts("package", packageName, null)
+//        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//      })
+//    }
   }
 
   override fun onResume() {

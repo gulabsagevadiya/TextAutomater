@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "TextAutomater"
 include(":app")
- 
