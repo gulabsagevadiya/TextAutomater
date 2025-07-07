@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     smsHelper.sendTextMessage(phoneNumber, message) { success, message ->
+      finishAffinity()
       Toast.makeText(this, "Result : $success \nMessage: $message", Toast.LENGTH_LONG).show()
     }
 //    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
