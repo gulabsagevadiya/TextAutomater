@@ -14,7 +14,7 @@
         android:protectionLevel="signature" />
 
     <application
-        android:name=".MyApp"
+        android:name=".TextAutomaterApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".WhatsAppAccessibilityService"
+            android:name=".service.WhatsAppAccessibilityService"
             android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

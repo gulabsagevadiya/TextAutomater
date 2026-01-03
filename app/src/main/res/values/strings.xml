@@ -1,4 +1,38 @@
 <resources>
     <string name="app_name">TextAutomater</string>
-    <string name="whats_app_permission">WhatsApp Automation Permission</string>
+
+    <!-- Header -->
+    <string name="setup_required">Setup Required</string>
+    <string name="setup_description">Enable the permissions below to use all features</string>
+
+    <!-- Permission Status -->
+    <string name="permission_granted">Enabled</string>
+    <string name="permission_not_granted">Not Enabled</string>
+    <string name="tap_to_open_settings">Tap to open settings</string>
+
+    <!-- SMS Permission -->
+    <string name="sms_permission_title">SMS Permission</string>
+    <string name="sms_permission_steps">1. Tap the toggle above\n2. Go to Permissions\n3. Find SMS and enable it</string>
+
+    <!-- Accessibility Permission -->
+    <string name="whats_app_permission">This service allows TextAutomater to automatically send WhatsApp messages.</string>
+    <string name="accessibility_permission_title">Accessibility Service</string>
+    <string name="accessibility_permission_steps">1. Tap the toggle above\n2. Find \"TextAutomater\" in the list\n3. Tap on it and enable the service</string>
+    <string name="accessibility_restricted_title">If Accessibility is Restricted:</string>
+    <string name="accessibility_restricted_steps">1. Go to Settings → Apps → TextAutomater\n2. Tap on three dots (⋮) menu at top right\n3. Select \"Allow restricted settings\"\n4. Enter your PIN/Pattern to confirm\n5. Now go back and enable Accessibility</string>
+
+    <!-- Test SMS -->
+    <string name="test_sms">Test SMS</string>
+    <string name="test_sms_title">Test SMS Feature</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="test_message">Test Message</string>
+    <string name="default_test_message">This is a test message from TextAutomater</string>
+    <string name="send_test">Send Test</string>
+    <string name="cancel">Cancel</string>
+    <string name="test_result">Test Result</string>
+    <string name="sms_sent_success">SMS sent successfully!</string>
+    <string name="sms_sent_failed">SMS failed: %1$s</string>
+    <string name="invalid_phone_number">Please enter a valid phone number</string>
+    <string name="ok">OK</string>
+    <string name="sending">Sending…</string>
 </resources>
