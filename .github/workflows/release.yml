@@ -1,9 +1,8 @@
 name: Build and Release APK
 
+# INACTIVE: release on push disabled — trigger manually when a release is wanted.
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build-and-release:
